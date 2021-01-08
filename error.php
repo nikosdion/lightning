@@ -34,8 +34,20 @@ if ($themeSwitcher)
 }
 HTMLHelper::_('script', 'switch.min.js', ['version' => 'auto', 'relative' => true], ['type' => 'module']);
 
-// Fetch CSS
-$css = file_get_contents(__DIR__ . '/css/template.css');
+/**
+ * Uncomment to inline the template CSS.
+ *
+ * Strangely, doing so seems to _increase_ the LCP (Largest Contentful Paint) on fast connections and has a negligible
+ * impact on slower connections. Furthermore, it increases the nodes size count which has a negative impact on the
+ * layout engine. Finally, it increases the page weight on repeated access.
+ */
+//$css = file_get_contents(__DIR__ . '/css/template.css');
+
+// Fallback to good, old-fashioned loading of the CSS.
+if (!isset($css))
+{
+	HTMLHelper::_('stylesheet', sprintf('templates/%s/css/template.css', basename(__DIR__)), ['version' => 'auto']);
+}
 
 // Logo file or site title param
 if ($this->params->get('logoFile'))
@@ -58,7 +70,10 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<jdoc:include type="metas" />
-	<style><?php echo $css; ?></style>
+	<?php if (isset($css)): ?>
+		<style><?php echo $css; ?></style>
+	<?php endif; ?>
+	<jdoc:include type="styles" />
 </head>
 
 <body class="site-grid site <?php echo $pageclass; ?>">

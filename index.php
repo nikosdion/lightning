@@ -37,8 +37,20 @@ HTMLHelper::_('script', 'switch.min.js', ['version' => 'auto', 'relative' => tru
 // Font Awesome
 HTMLHelper::_('stylesheet', 'media/vendor/fontawesome-free/css/fontawesome.min.css', ['version' => 'auto']);
 
-// Fetch CSS
-$css = file_get_contents(__DIR__ . '/css/template.css');
+/**
+ * Uncomment to inline the template CSS.
+ *
+ * Strangely, doing so seems to _increase_ the LCP (Largest Contentful Paint) on fast connections and has a negligible
+ * impact on slower connections. Furthermore, it increases the nodes size count which has a negative impact on the
+ * layout engine. Finally, it increases the page weight on repeated access.
+ */
+//$css = file_get_contents(__DIR__ . '/css/template.css');
+
+// Fallback to good, old-fashioned loading of the CSS.
+if (!isset($css))
+{
+	HTMLHelper::_('stylesheet', sprintf('templates/%s/css/template.css', basename(__DIR__)), ['version' => 'auto']);
+}
 
 // Logo file or site title param
 if ($this->params->get('logoFile'))
@@ -84,13 +96,14 @@ $this->addHeadLink($faviconPath . '/favicon.ico', 'shortcut icon');
 
 // DNS pre-fetching. It accelerates loading of external resources on medium to high latency connection
 // -- ReCAPTCHA
-$this->addCustomTag('<link rel="dns-prefetch" href="https://www.google.com"> ');
-$this->addCustomTag('<link rel="dns-prefetch" href="https://www.gstatic.com"> ');
+$this->addHeadLink("https://www.google.com", 'dns-prefetch');
+$this->addHeadLink("https://www.gstatic.com", 'dns-prefetch');
 // -- Our CDN (downloads, static resources)
-$this->addCustomTag('<link rel="dns-prefetch" href="https://cdn.dionysopoulos.me"> ');
+$this->addHeadLink("https://cdn.dionysopoulos.me", 'dns-prefetch');
 
 // Asset preloading
-$this->addCustomTag(sprintf('<link rel="preload" href="%smedia/vendor/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" crossorigin="anonymous">', Uri::root(true)));
+$this->addHeadLink(sprintf('%smedia/vendor/fontawesome-free/webfonts/fa-solid-900.woff2', Uri::root(true)), 'preload', 'rel', ['as' => 'font', 'crossorigin' => 'anonymous']);
+$this->addHeadLink(sprintf('%stemplates/%s/css/template.css', Uri::root(true), basename(__DIR__)), 'preload', 'rel', ['as' => 'style', 'crossorigin' => 'anonymous']);
 
 // Get Joomla's buffer
 $menu         = $this->getBuffer('modules', 'menu', $attribs = ['style' => 'none']);
@@ -113,38 +126,50 @@ $metas        = $this->getBuffer('metas');
 $styles       = $this->getBuffer('styles');
 $scripts      = $this->getBuffer('scripts');
 
-$cachesStyleSheets = json_encode(array_values($styles));
+/**
+ * Uncomment to load CSS at the bottom of the page.
+ *
+ * Causes an increased CLS (Cumulative Layout Shift) as the browser needs to re-evaluate the layout after having already
+ * done the work before the DOM is fully loaded and the JS injects the new stylesheets into the DOM.
+ */
+//$cachedStyleSheets = json_encode(array_values($this->getBuffer('styles')));
+
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?= $this->language ?>" dir="<?= $this->direction ?>">
 <head>
-	<?php echo $metas; ?>
-	<style><?php echo $css; ?></style>
+	<?= $metas ?>
+	<?php if (isset($css)): ?>
+	<style><?= $css ?></style>
+	<?php endif ?>
+	<?php if (!isset($cachedStyleSheets)): ?>
+		<?= implode("\n", $this->getBuffer('styles')) ?>
+	<?php endif ?>
 </head>
-<body class="site-grid site <?php echo $pageclass . $hasSidebar; ?>">
-	<header class="grid-child container-header full-width header <?php echo $this->countModules('banner') ? 'has-banner' : ''; ?>">
+<body class="site-grid site <?= $pageclass . $hasSidebar ?>">
+	<header class="grid-child container-header full-width header <?= $this->countModules('banner') ? 'has-banner' : '' ?>">
 		<nav class="navbar">
 			<div class="navbar-brand">
-				<a href="<?php echo $this->baseurl; ?>/">
-					<?php echo $logo; ?>
-					<span class="sr-only"><?php echo Text::_('TPL_LIGHTNING_LOGO_LABEL'); ?></span>
+				<a href="<?= $this->baseurl ?>/">
+					<?= $logo ?>
+					<span class="sr-only"><?= Text::_('TPL_LIGHTNING_LOGO_LABEL') ?></span>
 				</a>
 				<?php if ($this->params->get('siteDescription')) : ?>
-					<div><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
-				<?php endif; ?>
+					<div><?= htmlspecialchars($this->params->get('siteDescription')) ?></div>
+				<?php endif ?>
 			</div>
 
 			<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
 				<div class="navbar-menu">
-					<?php echo $menu; ?>
+					<?= $this->getBuffer('modules', 'menu', $attribs = ['style' => 'none']) ?>
 					<?php if ($this->countModules('search')) : ?>
 						<div>
-							<?php echo $search; ?>
+							<?= $search ?>
 						</div>
-					<?php endif; ?>
+					<?php endif ?>
 				</div>
 				<span id="navbar-menu-toggle" class="navbar-menu-toggle"><span></span></span>
-			<?php endif; ?>
+			<?php endif ?>
 			<?php if ($themeSwitcher) : ?>
 				<div class="color-scheme-switch" id="color-scheme-switch">
 					<input type="radio" name="color-scheme-switch" value="is-light" class="color-scheme-switch-radio" aria-label="Light color scheme">
@@ -152,79 +177,81 @@ $cachesStyleSheets = json_encode(array_values($styles));
 					<input type="radio" name="color-scheme-switch" value="is-dark" class="color-scheme-switch-radio" aria-label="Dark color scheme">
 					<label class="color-scheme-switch-label" for="color-scheme-switch"></label>
 				</div>
-			<?php endif; ?>
+			<?php endif ?>
 		</nav>
 	</header>
 
 	<?php if ($this->countModules('banner')) : ?>
 	<div class="grid-child full-width container-banner">
-		<?php echo $banner; ?>
+		<?= $banner ?>
 	</div>
-	<?php endif; ?>
+	<?php endif ?>
 
 	<?php if ($this->countModules('top-a')) : ?>
 	<div class="grid-child container-top-a">
-		<?php echo $topA; ?>
+		<?= $topA ?>
 	</div>
-	<?php endif; ?>
+	<?php endif ?>
 
 	<?php if ($this->countModules('top-b')) : ?>
 	<div class="grid-child container-top-b">
-		<?php echo $topB; ?>
+		<?= $topB ?>
 	</div>
-	<?php endif; ?>
+	<?php endif ?>
 
 	<?php if ($this->countModules('sidebar-left')) : ?>
 	<div class="grid-child container-sidebar-left">
-		<?php echo $sidebarLeft; ?>
+		<?= $sidebarLeft ?>
 	</div>
-	<?php endif; ?>
+	<?php endif ?>
 
 	<div class="grid-child container-component">
-		<?php echo $mainTop; ?>
-		<?php echo $message; ?>
-		<?php echo $breadcrumbs; ?>
-		<?php echo $component; ?>
-		<?php echo $mainBottom; ?>
+		<?= $mainTop ?>
+		<?= $message ?>
+		<?= $breadcrumbs ?>
+		<?= $component ?>
+		<?= $mainBottom ?>
 	</div>
 
 	<?php if ($this->countModules('sidebar-right')) : ?>
 	<div class="grid-child container-sidebar-right">
-		<?php echo $sidebarRight; ?>
+		<?= $sidebarRight ?>
 	</div>
-	<?php endif; ?>
+	<?php endif ?>
 
 	<?php if ($this->countModules('bottom-a')) : ?>
 	<div class="grid-child container-bottom-a">
-		<?php echo $bottomA; ?>
+		<?= $bottomA ?>
 	</div>
-	<?php endif; ?>
+	<?php endif ?>
 
 	<?php if ($this->countModules('bottom-b')) : ?>
 	<div class="grid-child container-bottom-b">
-		<?php echo $bottomB; ?>
+		<?= $bottomB ?>
 	</div>
-	<?php endif; ?>
+	<?php endif ?>
 
 	<?php if ($this->countModules('footer')) : ?>
 	<footer class="grid-child container-footer full-width footer">
 		<div class="container">
-			<?php echo $footer; ?>
+			<?= $footer ?>
 		</div>
 	</footer>
-	<?php endif; ?>
+	<?php endif ?>
 
-	<?php echo $debug; ?>
+	<?= $debug ?>
 
+	<?php if (isset($cachedStyleSheets)): ?>
 	<script>
 		(() => {
-			const styles = <?php echo $cachesStyleSheets; ?>;
+			const styles = <?= $cachedStyleSheets ?>;
 			styles.forEach(item => {
 				document.body.insertAdjacentHTML('beforeend', item);
 			})
 		})()
 	</script>
+	<?php endif ?>
 
-	<?php echo $scripts; ?>
+	<?= $scripts ?>
 </body>
 </html>
