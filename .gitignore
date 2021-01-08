@@ -1,6 +1,5 @@
 # JS/CSS Build #
 node_modules/
-/css/**/*.css
 
 # CSS map files #
 .map

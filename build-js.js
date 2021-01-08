@@ -12,6 +12,7 @@ const {Worker, isMainThread, parentPort}              = require("worker_threads"
 const {readdir, readFile, writeFile, mkdir, copyFile} = require("fs").promises
 const {resolve}                                       = require("path")
 const Terser                                          = require("terser")
+const {compressFile}                                  = require("./gzip-assets.es6");
 
 async function* recursiveSearch(dir)
 {
@@ -41,8 +42,10 @@ async function processJs()
                 let targetDir = dest.substring(0, dest.lastIndexOf("/"));
                 await mkdir(targetDir, {recursive: true})
                 await copyFile(file, dest)
-                const data = await Terser.minify(response)
-                writeFile(`${dest.substr(0, dest.lastIndexOf("."))}.min.js`, data.code)
+                const data  = await Terser.minify(response)
+                let outFile = `${dest.substr(0, dest.lastIndexOf("."))}.min.js`;
+                writeFile(outFile, data.code);
+                compressFile(outFile, true);
             })
     }
 }
