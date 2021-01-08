@@ -11,8 +11,8 @@
 /* Important */
 
 /* variables */
-@import 'variables.pcss';
+@import 'variables.css';
 
 /* components */
-@import 'components/*.pcss';
+@import 'components/*.css';
 

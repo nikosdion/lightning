@@ -8,22 +8,22 @@
  * Copyright (C) 2020 JoomJunk.
  */
 
-@import 'variables.pcss';
+@import 'variables.css';
 
 /* utility */
-@import 'utility/*.pcss';
+@import 'utility/*.css';
 
 /* base */
-@import 'base/*.pcss';
+@import 'base/*.css';
 
 /* typography */
-@import 'typography/*.pcss';
+@import 'typography/*.css';
 
 /* elements */
-@import 'elements/*.pcss';
+@import 'elements/*.css';
 
 /* form elements */
-@import 'elements/forms/*.pcss';
+@import 'elements/forms/*.css';
 
 /* components */
-@import 'components/*.pcss';
+@import 'components/*.css';
