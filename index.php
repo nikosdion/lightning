@@ -70,6 +70,8 @@ $faviconPath = 'templates/' . $this->template . '/favicon';
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 $this->setMetaData('theme-color', '#415058');
+
+// Favicons
 $this->setMetaData('msapplication-config', $faviconPath . '/browserconfig.xml');
 $this->setMetaData('msapplication-TileColor', '#415058');
 
@@ -80,6 +82,17 @@ $this->addHeadLink($faviconPath . '/site.webmanifest.json', 'manifest');
 $this->addHeadLink($faviconPath . '/safari-pinned-tab.svg', 'mask-icon', 'rel', ['color' => '#1F292E']);
 $this->addHeadLink($faviconPath . '/favicon.ico', 'shortcut icon');
 
+// DNS pre-fetching. It accelerates loading of external resources on medium to high latency connection
+// -- ReCAPTCHA
+$this->addCustomTag('<link rel="dns-prefetch" href="https://www.google.com"> ');
+$this->addCustomTag('<link rel="dns-prefetch" href="https://www.gstatic.com"> ');
+// -- Our CDN (downloads, static resources)
+$this->addCustomTag('<link rel="dns-prefetch" href="https://cdn.dionysopoulos.me"> ');
+
+// Asset preloading
+$this->addCustomTag(sprintf('<link rel="preload" href="%smedia/vendor/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" crossorigin="anonymous">', Uri::root(true)));
+
+// Get Joomla's buffer
 $menu         = $this->getBuffer('modules', 'menu', $attribs = ['style' => 'none']);
 $search       = $this->getBuffer('modules', 'search', $attribs = ['style' => 'none']);
 $banner       = $this->getBuffer('modules', 'banner', $attribs = ['style' => 'default']);
