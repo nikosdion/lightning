@@ -27,17 +27,17 @@ const plugins = [
 ]
 
 const files = {
-    "src/css/hiq.pcss":                                            "css/template.css",
-    "src/css/switch.pcss":                                         "css/switch.css",
-    "src/css/media/vendor/joomla-custom-elements/joomla-tab.pcss": "css/vendor/joomla-custom-elements/joomla-tab.css",
-    "src/css/media/layouts/modal/modal.pcss":                      "css/modal.css",
-    "src/css/media/vendor/choicesjs/choices.pcss":                 "css/vendor/choicesjs/choices.min.css",
-    "src/css/media/system/frontediting.pcss":                      "css/system/frontediting.css",
-    "src/css/media/system/fields/calendar.pcss":                   "css/system/fields/calendar.min.css",
-    "src/css/media/system/fields/joomla-field-media.pcss":         "css/system/fields/joomla-field-media.min.css",
-    "src/css/media/mod_menu/menu.pcss":                            "css/mod_menu/menu.min.css",
-    "src/css/media/layouts/pagination/pagination.pcss":            "css/pagination.css",
-    "src/css/mediamanager/mediamanager.pcss":                      "css/com_media/mediamanager.min.css",
+    "src/css/hiq.css":                                            "css/template.css",
+    "src/css/switch.css":                                         "css/switch.css",
+    "src/css/media/vendor/joomla-custom-elements/joomla-tab.css": "css/vendor/joomla-custom-elements/joomla-tab.css",
+    "src/css/media/layouts/modal/modal.css":                      "css/modal.css",
+    "src/css/media/vendor/choicesjs/choices.css":                 "css/vendor/choicesjs/choices.min.css",
+    "src/css/media/system/frontediting.css":                      "css/system/frontediting.css",
+    "src/css/media/system/fields/calendar.css":                   "css/system/fields/calendar.min.css",
+    "src/css/media/system/fields/joomla-field-media.css":         "css/system/fields/joomla-field-media.min.css",
+    "src/css/media/mod_menu/menu.css":                            "css/mod_menu/menu.min.css",
+    "src/css/media/layouts/pagination/pagination.css":            "css/pagination.css",
+    "src/css/mediamanager/mediamanager.css":                      "css/com_media/mediamanager.min.css",
 }
 
 const ProcessCss = (file, dest) =>
@@ -56,8 +56,12 @@ const ProcessCss = (file, dest) =>
                         throw err
                     }
 
-                    writeFile(dest, result.css, {flag: "wx"}, () => true)
-                    compressFile(dest, true);
+                    writeFile(dest, result.css, {flag: "wx"}, () => {
+                        compressFile(dest, true);
+
+                        return true;
+                    })
+
                 });
             })
     })
