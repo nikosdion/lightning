@@ -34,7 +34,8 @@
       > a {
         display: inline-block;
         padding: .2rem 0;
-        color: var(--hiq-text-color);
+        /*color: var(--hiq-text-color);*/
+        color: var(--hiq-color-gray-8);
       }
     }
 

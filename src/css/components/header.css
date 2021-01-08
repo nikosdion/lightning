@@ -20,8 +20,17 @@
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .1);
   background-color: var(--hiq-header-background-color);
   line-height: calc(var(--navbar-height) - 1rem);
+  color: var(--hiq-header-text-color);
+
+  a {
+    color: var(--hiq-header-link-color);
+  }
 
   &.has-banner {
     margin-bottom: 0;
+  }
+
+  ul.mod-menu + div {
+      margin-left: 1em;
   }
 }

@@ -13,4 +13,10 @@
 .footer {
   padding: 2rem 0;
   background-color: var(--hiq-footer-background-color);
+  color: var(--hiq-footer-text-color);
+
+  a {
+    color: var(--hiq-footer-link-color);
+  }
+
 }
