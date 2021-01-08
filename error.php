@@ -60,7 +60,7 @@ elseif ($this->params->get('siteTitle'))
 }
 else
 {
-	$logo = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 508.928 508.928" height="50"><path fill="hsl(210, 100%, 50%)" d="M403.712 201.04H256.288L329.792 0 105.216 307.888H252.64l-73.504 201.04z"/></svg>';
+	$logo = '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 1080 1081" height="60" xmlns="http://www.w3.org/2000/svg"><path d="m0 .67h1080v1080h-1080z" fill="none"/><g fill-rule="nonzero"><path d="m244.4 258.4h583.2c17.774 0 32.4 14.626 32.4 32.4v518.4c0 17.774-14.626 32.4-32.4 32.4h-583.2c-17.774 0-32.4-14.626-32.4-32.4v-518.4c0-17.774 14.626-32.4 32.4-32.4z" fill="#d43431" transform="matrix(1.23457 0 0 1.23457 -121.72352 -138.3427)"/><path d="m.259-.667h.128l.279.667h-.686zm.111.491-.05-.119-.05.119zm.165.096-.212-.507-.212.507zm-.216-.441.176.421h-.352z" fill="#f2f2f3" transform="matrix(689.01598614 0 0 585.12938978 317.4500661 735.81063791)"/></g></svg>';
 }
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
