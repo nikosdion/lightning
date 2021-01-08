@@ -1,38 +1,61 @@
-const { Worker, isMainThread, parentPort } = require('worker_threads')
-const { readdir, readFile, writeFile, mkdir, copyFile } = require('fs').promises
-const { resolve } = require('path')
-const Terser = require('terser')
+/*
+ * @package     Lightning
+ *
+ * @copyright   Copyright (C) 2020-2021 Nicholas K. Dionysopoulos. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * This template is a derivative work of the Lightning template which is
+ * Copyright (C) 2020 JoomJunk.
+ */
 
-async function* recursiveSearch(dir) {
-  const dirents = await readdir(dir, { withFileTypes: true })
-  for (const dirent of dirents) {
-    const res = resolve(dir, dirent.name)
-    if (dirent.isDirectory()) {
-      yield* recursiveSearch(res)
-    } else {
-      yield res
+const {Worker, isMainThread, parentPort}              = require("worker_threads")
+const {readdir, readFile, writeFile, mkdir, copyFile} = require("fs").promises
+const {resolve}                                       = require("path")
+const Terser                                          = require("terser")
+
+async function* recursiveSearch(dir)
+{
+    const dirents = await readdir(dir, {withFileTypes: true})
+    for (const dirent of dirents)
+    {
+        const res = resolve(dir, dirent.name)
+        if (dirent.isDirectory())
+        {
+            yield* recursiveSearch(res)
+        }
+        else
+        {
+            yield res
+        }
     }
-  }
 }
 
-async function processJs() {
-  for await (const file of recursiveSearch(`${__dirname}/src/js/`)) {
-    readFile(file, { encoding: 'utf8' })
-      .then(async (response) => {
-        const dest = file.replace(/src\\/g, '')
-        await mkdir(dest.substring(0, dest.lastIndexOf('\\')), { recursive: true })
-        await copyFile(file, dest)
-        const data = await Terser.minify(response)
-        writeFile(`${dest.substr(0, dest.lastIndexOf('.'))}.min.js`, data.code)
-      })
-  }
+async function processJs()
+{
+    for await (const file of recursiveSearch(`${__dirname}/src/js/`))
+    {
+        readFile(file, {encoding: "utf8"})
+            .then(async (response) =>
+            {
+                const dest    = file.replace(/src\//g, "")
+                let targetDir = dest.substring(0, dest.lastIndexOf("/"));
+                await mkdir(targetDir, {recursive: true})
+                await copyFile(file, dest)
+                const data = await Terser.minify(response)
+                writeFile(`${dest.substr(0, dest.lastIndexOf("."))}.min.js`, data.code)
+            })
+    }
 }
 
-if (isMainThread) {
-  const worker = new Worker(__filename)
-  worker.postMessage('message')
-} else {
-  parentPort.once('message', () => {
-    processJs()
-  })
+if (isMainThread)
+{
+    const worker = new Worker(__filename)
+    worker.postMessage("message")
+}
+else
+{
+    parentPort.once("message", () =>
+    {
+        processJs()
+    })
 }

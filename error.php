@@ -1,9 +1,12 @@
 <?php
-/**
+/*
  * @package     Lightning
  *
- * @copyright   Copyright (C) 2020 JoomJunk. All rights reserved.
+ * @copyright   Copyright (C) 2020-2021 Nicholas K. Dionysopoulos. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * This template is a derivative work of the Lightning template which is
+ * Copyright (C) 2020 JoomJunk.
  */
 
 defined('_JEXEC') or die;
@@ -20,6 +23,9 @@ $sitename      = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu          = $app->getMenu()->getActive();
 $pageclass     = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 $themeSwitcher = (boolean)$this->params->get('theme-switcher', 1);
+
+/** @var Throwable $incomingException */
+$incomingException = $this->_error ?? new RuntimeException('Unspecified error');
 
 // Template params
 if ($themeSwitcher)
@@ -48,6 +54,7 @@ else
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 ?>
 <!DOCTYPE html>
+<!--suppress XmlUnboundNsPrefix -->
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<jdoc:include type="metas" />
@@ -103,12 +110,12 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 						<?php $loop = true; ?>
 						<?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
 						<?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
-						<?php $this->setError($this->_error->getPrevious()); ?>
+						<?php $this->setError($incomingException->getPrevious()); ?>
 						<?php while ($loop === true) : ?>
 							<p><strong><?php echo Text::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
-							<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+							<p><?php echo htmlspecialchars($incomingException->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
 							<?php echo $this->renderBacktrace(); ?>
-							<?php $loop = $this->setError($this->_error->getPrevious()); ?>
+							<?php $loop = $this->setError($incomingException->getPrevious()); ?>
 						<?php endwhile; ?>
 						<?php // Reset the main error object to the base error ?>
 						<?php $this->setError($this->error); ?>

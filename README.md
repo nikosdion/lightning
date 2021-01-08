@@ -1,8 +1,8 @@
-# Lightning
-Joomla 4 template using HiQ CSS
+# Lightning for Dionysopoulos.me
 
-## Download
-You can download the latest version here: https://github.com/C-Lodder/lightning/releases
+Joomla 4 template using HiQ CSS for Dionysopoulos.me
+
+Based on the [Lightning](https://github.com/C-Lodder/lightning/releases) template by Charlie Lodder/
 
 ## Browser Support
 
@@ -10,55 +10,34 @@ You can download the latest version here: https://github.com/C-Lodder/lightning/
 --- | --- | --- | --- | --- | --- |
 Latest :heavy_check_mark: | Latest :heavy_check_mark: | Latest :heavy_check_mark: | 11+ :x: | Latest :heavy_check_mark: | Latest :heavy_check_mark: |
 
-## Installation
-Install the template zip file like you would any other extension.
-There is also a sampledata plugin available to use, which will demonstrate the available module positions with some demo data.
-
-## Contributing
-- Clone the repository:
-```bash
-git clone https://github.com/C-Lodder/lightning.git <path>
-```
-- Go to the folder:
-```bash
-cd <path>
-```
+## Build tasks
 - Install dependencies:
 ```bash
 npm ci
 ```
-- Checkout a new branch:
-```bash
-git checkout -b <branch name>
-```
 
-## Build tasks
 - Compile CSS:
 ```bash
 npm run css
 ```
+
 - Copy &amp; minify Javascript:
 ```bash
 npm run js
 ```
+
 - Create a Zip file:
 ```bash
 npm run package
 ```
+
 - Lint CSS:
 ```bash
 npm run lint
 ```
+
 - Build project:
 This will process all Javascript, CSS and also create a zip file
 ```bash
 npm run build
 ```
-
-## Screenshots
-
-### Light
-![Light](https://i.imgur.com/U2wfJYK.png)
-
-### Dark
-![Light](https://i.imgur.com/N3PvtIj.png)

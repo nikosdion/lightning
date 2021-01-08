@@ -1,11 +1,3 @@
-# IDE & System Related Files #
-.buildpath
-.project
-.settings
-.DS_Store
-.idea
-.vscode
-
 # JS/CSS Build #
 node_modules/
 /css/**/*.css
@@ -17,10 +9,14 @@ node_modules/
 ._*
 .Spotlight-V100
 .Trashes
+.DS_Store
 
 # Windows #
 Thumbs.db
 Desktop.ini
+
+# ZIP files
+*.zip
 
 # Never ignore #
 !/.gitignore

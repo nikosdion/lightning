@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ @package     Lightning
+  ~
+  ~ @copyright   Copyright (C) 2020-2021 Nicholas K. Dionysopoulos. All rights reserved.
+  ~ @license     GNU General Public License version 2 or later; see LICENSE.txt
+  ~
+  ~ This template is a derivative work of the Lightning template which is
+  ~ Copyright (C) 2020 JoomJunk.
+  -->
+
 <browserconfig>
     <msapplication>
         <tile>
             <square150x150logo src="/mstile-150x150.png"/>
-            <TileColor>#ffffff</TileColor>
+            <TileColor>#415058</TileColor>
         </tile>
     </msapplication>
 </browserconfig>

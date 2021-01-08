@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ @package     Lightning
+  ~
+  ~ @copyright   Copyright (C) 2020-2021 Nicholas K. Dionysopoulos. All rights reserved.
+  ~ @license     GNU General Public License version 2 or later; see LICENSE.txt
+  ~
+  ~ This template is a derivative work of the Lightning template which is
+  ~ Copyright (C) 2020 JoomJunk.
+  -->
+
 <extension type="template" client="site" method="upgrade">
 	<name>lightning</name>
 	<version>0.0.13</version>
@@ -107,6 +117,6 @@
 	</config>
 	
 	<updateservers>
-		<server type="extension" priority="1" name="Lightning - Site Template">https://raw.githubusercontent.com/C-Lodder/lightning/master/updates/lightning_updates.xml</server>
+		<server type="extension" priority="1" name="Lightning for Dionysopoulos.me - Site Template">https://raw.githubusercontent.com/nikosdion/lightning/dionysopoulos/updates/lightning_updates.xml</server>
 	</updateservers>
 </extension>

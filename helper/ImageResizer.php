@@ -1,11 +1,21 @@
 <?php
+/*
+ * @package     Lightning
+ *
+ * @copyright   Copyright (C) 2020-2021 Nicholas K. Dionysopoulos. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * This template is a derivative work of the Lightning template which is
+ * Copyright (C) 2020 JoomJunk.
+ */
+
 /**
  * Automatic Image Resizer
  *
  * @copyright Copyright (c)2020 Nicholas K. Dionysopoulos
  * @author    Nicholas K. Dionysopoulos <nicholas@dionysopoulos.me>
  * @license   MIT
- * @version   1.0.1
+ * @version   1.0.2
  *
  * Your server must have the PHP GD extension installed and enabled.
  */
