@@ -69,16 +69,16 @@ if ($this->countModules('sidebar-right'))
 $faviconPath = 'templates/' . $this->template . '/favicon';
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
-$this->setMetaData('theme-color', '#ffffff');
+$this->setMetaData('theme-color', '#415058');
 $this->setMetaData('msapplication-config', $faviconPath . '/browserconfig.xml');
-$this->setMetaData('msapplication-TileColor', '#ffffff');
+$this->setMetaData('msapplication-TileColor', '#415058');
 
-$this->addCustomTag('<link rel="apple-touch-icon" sizes="180x180" href="' . $faviconPath . '/apple-touch-icon.png">');
-$this->addCustomTag('<link rel="icon" type="image/png" sizes="32x32" href="' . $faviconPath . '/favicon-32x32.png">');
-$this->addCustomTag('<link rel="icon" type="image/png" sizes="16x16" href="' . $faviconPath . '/favicon-16x16.png">');
-$this->addCustomTag('<link rel="manifest" href="' . $faviconPath . '/site.webmanifest">');
-$this->addCustomTag('<link rel="mask-icon" href="' . $faviconPath . '/safari-pinned-tab.svg" color="#5bbad5">');
-$this->addCustomTag('<link rel="shortcut icon" href="' . $faviconPath . '/favicon.ico">');
+$this->addHeadLink($faviconPath . '/apple-touch-icon.png', 'apple-touch-icon', 'rel', ['sizes' => '180x180']);
+$this->addHeadLink($faviconPath . '/favicon-32x32.png', 'icon', 'rel', ['sizes' => '32x32']);
+$this->addHeadLink($faviconPath . '/favicon-16x16.png', 'icon', 'rel', ['sizes' => '16x16']);
+$this->addHeadLink($faviconPath . '/site.webmanifest.json', 'manifest');
+$this->addHeadLink($faviconPath . '/safari-pinned-tab.svg', 'mask-icon', 'rel', ['color' => '#1F292E']);
+$this->addHeadLink($faviconPath . '/favicon.ico', 'shortcut icon');
 
 $menu         = $this->getBuffer('modules', 'menu', $attribs = ['style' => 'none']);
 $search       = $this->getBuffer('modules', 'search', $attribs = ['style' => 'none']);
