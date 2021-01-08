@@ -1,0 +1,8 @@
+<component name="CopyrightManager">
+  <copyright>
+    <option name="allowReplaceRegexp" value="Copyright \(C\) 2020" />
+    <option name="keyword" value="Copyright \(C\) 2020" />
+    <option name="notice" value="@package     Lightning&#10;&#10;@copyright   Copyright (C) 2020-&amp;#36;today.year Nicholas K. Dionysopoulos. All rights reserved.&#10;@license     GNU General Public License version 2 or later; see LICENSE.txt&#10;&#10;This template is a derivative work of the Lightning template which is&#10;Copyright (C) 2020 JoomJunk." />
+    <option name="myName" value="Nicholas" />
+  </copyright>
+</component>
