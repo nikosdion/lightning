@@ -26,12 +26,20 @@ div[itemprop="articleBody"] {
     }
 }
 
+/* Article title in blog view must NOT be justified, but the leading text must be */
 div.com-content-category-blog div.item-content {
     text-align: justify;
     text-justify: inter-word;
 
     h2 {
         text-align: left;
+    }
+}
+
+/* Increase the margins around article headings in Dark Mode (it matters for my long form content) */
+html.is-dark div[itemprop="articleBody"] {
+    h1, h2, h3, h4, h5, h6 {
+        margin: 1em 0 !important;
     }
 }
 
