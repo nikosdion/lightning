@@ -25,31 +25,40 @@ include_once __DIR__ . '/helper/scripts.php';
 $app           = Factory::getApplication();
 $sitename      = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $pageclass     = $app->getMenu()->getActive()->getParams()->get('pageclass_sfx');
-$themeSwitcher = (boolean)$this->params->get('theme-switcher', 1);
 
-// Template params
+// Get the template options
+$themeSwitcher = (boolean) $this->params->get('theme-switcher', 1);
+$inlineCSS     = (boolean) $this->params->get('inline-css', 1);
+$deferCss      = (boolean) $this->params->get('defer-css', 1);
+$deferJs       = (boolean) $this->params->get('defer-js', 1);
+
 if ($themeSwitcher)
 {
 	HTMLHelper::_('stylesheet', 'switch.css', ['version' => 'auto', 'relative' => true]);
 }
+
 HTMLHelper::_('script', 'switch.min.js', ['version' => 'auto', 'relative' => true], ['type' => 'module']);
 
 // Font Awesome
 HTMLHelper::_('stylesheet', 'media/vendor/fontawesome-free/css/fontawesome.min.css', ['version' => 'auto']);
 
 /**
- * Uncomment to inline the template CSS.
+ * Inline the template CSS?
  *
  * Strangely, doing so seems to _increase_ the LCP (Largest Contentful Paint) on fast connections and has a negligible
  * impact on slower connections. Furthermore, it increases the nodes size count which has a negative impact on the
  * layout engine. Finally, it increases the page weight on repeated access.
  */
-//$css = file_get_contents(__DIR__ . '/css/template.css');
-
-// Fallback to good, old-fashioned loading of the CSS.
-if (!isset($css))
+if ($inlineCSS)
+{
+	$css = file_get_contents(__DIR__ . '/css/template.css');
+}
+else
 {
 	HTMLHelper::_('stylesheet', sprintf('templates/%s/css/template.css', basename(__DIR__)), ['version' => 'auto']);
+
+	// Tell the browser to start preloading the template CSS before it's done parsing the DOM
+	$this->addHeadLink(sprintf('%stemplates/%s/css/template.css', Uri::root(true), basename(__DIR__)), 'preload', 'rel', ['as' => 'style', 'crossorigin' => 'anonymous']);
 }
 
 // Logo file or site title param
@@ -103,7 +112,6 @@ $this->addHeadLink("https://cdn.dionysopoulos.me", 'dns-prefetch');
 
 // Asset preloading
 $this->addHeadLink(sprintf('%smedia/vendor/fontawesome-free/webfonts/fa-solid-900.woff2', Uri::root(true)), 'preload', 'rel', ['as' => 'font', 'crossorigin' => 'anonymous']);
-$this->addHeadLink(sprintf('%stemplates/%s/css/template.css', Uri::root(true), basename(__DIR__)), 'preload', 'rel', ['as' => 'style', 'crossorigin' => 'anonymous']);
 
 // Get Joomla's buffer
 $menu         = $this->getBuffer('modules', 'menu', $attribs = ['style' => 'none']);
@@ -127,24 +135,30 @@ $styles       = $this->getBuffer('styles');
 $scripts      = $this->getBuffer('scripts');
 
 /**
- * Uncomment to load CSS at the bottom of the page.
+ * Load CSS at the bottom of the page?
  *
  * Causes an increased CLS (Cumulative Layout Shift) as the browser needs to re-evaluate the layout after having already
  * done the work before the DOM is fully loaded and the JS injects the new stylesheets into the DOM.
  */
-//$cachedStyleSheets = json_encode(array_values($this->getBuffer('styles')));
+if ($deferCss)
+{
+	$cachedStyleSheets = json_encode(array_values($this->getBuffer('styles')));
+}
 
 ?>
 <!DOCTYPE html>
 <html lang="<?= $this->language ?>" dir="<?= $this->direction ?>">
 <head>
 	<?= $metas ?>
-	<?php if (isset($css)): ?>
+	<?php if ($inlineCSS): ?>
 	<style><?= $css ?></style>
 	<?php endif ?>
-	<?php if (!isset($cachedStyleSheets)): ?>
-		<?= implode("\n", $this->getBuffer('styles')) ?>
+	<?php if (!$deferCss): ?>
+	<?= implode("\n", $this->getBuffer('styles')) ?>
 	<?php endif ?>
+	<?php if (!$deferJs): ?>
+	<?= $scripts ?>
+	<?php endif; ?>
 </head>
 <body class="site-grid site <?= $pageclass . $hasSidebar ?>">
 	<header class="grid-child container-header full-width header <?= $this->countModules('banner') ? 'has-banner' : '' ?>">
@@ -241,7 +255,7 @@ $scripts      = $this->getBuffer('scripts');
 
 	<?= $debug ?>
 
-	<?php if (isset($cachedStyleSheets)): ?>
+	<?php if ($deferCss): ?>
 	<script>
 		(() => {
 			const styles = <?= $cachedStyleSheets ?>;
@@ -252,6 +266,8 @@ $scripts      = $this->getBuffer('scripts');
 	</script>
 	<?php endif ?>
 
-	<?= $scripts ?>
+	<?php if ($deferJs): ?>
+		<?= $scripts ?>
+	<?php endif; ?>
 </body>
 </html>
