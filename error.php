@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Template\Lightning\ImageResizer;
 
 /** @var JDocumentError $this */
 
@@ -49,10 +50,29 @@ if (!isset($css))
 	HTMLHelper::_('stylesheet', sprintf('templates/%s/css/template.css', basename(__DIR__)), ['version' => 'auto']);
 }
 
-// Logo file or site title param
-if ($this->params->get('logoFile'))
+$logoFile = $this->params->get('logoFile');
+
+if ($logoFile)
 {
-	$logo = '<img src="' . Uri::root() . $this->params->get('logoFile') . '" alt="' . $sitename . '">';
+	$width  = (int) $this->params->get('logoWidth', 0);
+	$height = (int) $this->params->get('logoHeight', 0);
+
+	if (($width <= 0) || ($height <= 0))
+	{
+		$resizer = ImageResizer::getInstance();
+
+		try
+		{
+			[$width, $height] = $resizer->getImageSize($logoFile);
+		}
+		catch (Exception $e)
+		{
+			$width  = 50;
+			$height = 50;
+		}
+	}
+
+	$logo = sprintf('<img src="%s%s" alt="%s" width="%s" height="%s">', Uri::root(), htmlspecialchars($logoFile, ENT_QUOTES), $sitename, $width, $height);
 }
 elseif ($this->params->get('siteTitle'))
 {

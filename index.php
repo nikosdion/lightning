@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Template\Lightning\ImageResizer;
 
 include_once __DIR__ . '/helper/metas.php';
 include_once __DIR__ . '/helper/styles.php';
@@ -22,9 +23,9 @@ include_once __DIR__ . '/helper/scripts.php';
 
 /** @var JDocumentHtml $this */
 
-$app           = Factory::getApplication();
-$sitename      = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
-$pageclass     = $app->getMenu()->getActive()->getParams()->get('pageclass_sfx');
+$app       = Factory::getApplication();
+$sitename  = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
+$pageclass = $app->getMenu()->getActive()->getParams()->get('pageclass_sfx');
 
 // Get the template options
 $themeSwitcher = (boolean) $this->params->get('theme-switcher', 1);
@@ -58,13 +59,35 @@ else
 	HTMLHelper::_('stylesheet', sprintf('templates/%s/css/template.css', basename(__DIR__)), ['version' => 'auto']);
 
 	// Tell the browser to start preloading the template CSS before it's done parsing the DOM
-	$this->addHeadLink(sprintf('%stemplates/%s/css/template.css', Uri::root(true), basename(__DIR__)), 'preload', 'rel', ['as' => 'style', 'crossorigin' => 'anonymous']);
+	$this->addHeadLink(sprintf('%stemplates/%s/css/template.css', Uri::root(true), basename(__DIR__)), 'preload', 'rel', ['as'          => 'style',
+	                                                                                                                      'crossorigin' => 'anonymous',
+	]);
 }
 
 // Logo file or site title param
-if ($this->params->get('logoFile'))
+$logoFile = $this->params->get('logoFile');
+
+if ($logoFile)
 {
-	$logo = '<img src="' . Uri::root() . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
+	$width  = (int) $this->params->get('logoWidth', 0);
+	$height = (int) $this->params->get('logoHeight', 0);
+
+	if (($width <= 0) || ($height <= 0))
+	{
+		$resizer = ImageResizer::getInstance();
+
+		try
+		{
+			[$width, $height] = $resizer->getImageSize($logoFile);
+		}
+		catch (Exception $e)
+		{
+			$width  = 50;
+			$height = 50;
+		}
+	}
+
+	$logo = sprintf('<img src="%s%s" alt="%s" width="%s" height="%s">', Uri::root(), htmlspecialchars($logoFile, ENT_QUOTES), $sitename, $width, $height);
 }
 elseif ($this->params->get('siteTitle'))
 {
@@ -111,7 +134,9 @@ $this->addHeadLink("https://www.gstatic.com", 'dns-prefetch');
 $this->addHeadLink("https://cdn.dionysopoulos.me", 'dns-prefetch');
 
 // Asset preloading
-$this->addHeadLink(sprintf('%smedia/vendor/fontawesome-free/webfonts/fa-solid-900.woff2', Uri::root(true)), 'preload', 'rel', ['as' => 'font', 'crossorigin' => 'anonymous']);
+$this->addHeadLink(sprintf('%smedia/vendor/fontawesome-free/webfonts/fa-solid-900.woff2', Uri::root(true)), 'preload', 'rel', ['as'          => 'font',
+                                                                                                                               'crossorigin' => 'anonymous',
+]);
 
 // Get Joomla's buffer
 $menu         = $this->getBuffer('modules', 'menu', $attribs = ['style' => 'none']);
@@ -151,123 +176,129 @@ if ($deferCss)
 <head>
 	<?= $metas ?>
 	<?php if ($inlineCSS): ?>
-	<style><?= $css ?></style>
+		<style><?= $css ?></style>
 	<?php endif ?>
 	<?php if (!$deferCss): ?>
-	<?= implode("\n", $this->getBuffer('styles')) ?>
+		<?= implode("\n", $this->getBuffer('styles')) ?>
 	<?php endif ?>
 	<?php if (!$deferJs): ?>
-	<?= $scripts ?>
+		<?= $scripts ?>
 	<?php endif; ?>
 </head>
 <body class="site-grid site <?= $pageclass . $hasSidebar ?>">
-	<header class="grid-child container-header full-width header <?= $this->countModules('banner') ? 'has-banner' : '' ?>">
-		<nav class="navbar">
-			<div class="navbar-brand">
-				<a href="<?= $this->baseurl ?>/">
-					<?= $logo ?>
-					<span class="sr-only"><?= Text::_('TPL_LIGHTNING_LOGO_LABEL') ?></span>
-				</a>
-				<?php if ($this->params->get('siteDescription')) : ?>
-					<div><?= htmlspecialchars($this->params->get('siteDescription')) ?></div>
+<header class="grid-child container-header full-width header <?= $this->countModules('banner') ? 'has-banner' : '' ?>">
+	<nav class="navbar">
+		<div class="navbar-brand">
+			<a href="<?= $this->baseurl ?>/">
+				<?= $logo ?>
+				<span class="sr-only"><?= Text::_('TPL_LIGHTNING_LOGO_LABEL') ?></span> </a>
+			<?php if ($this->params->get('siteDescription')) : ?>
+				<div><?= htmlspecialchars($this->params->get('siteDescription')) ?></div>
+			<?php endif ?>
+		</div>
+
+		<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
+			<div class="navbar-menu">
+				<?= $this->getBuffer('modules', 'menu', $attribs = ['style' => 'none']) ?>
+				<?php if ($this->countModules('search')) : ?>
+					<div>
+						<?= $search ?>
+					</div>
 				<?php endif ?>
 			</div>
+			<span id="navbar-menu-toggle" class="navbar-menu-toggle"><span></span></span>
+		<?php endif ?>
+		<?php if ($themeSwitcher) : ?>
+			<div class="color-scheme-switch" id="color-scheme-switch">
+				<input type="radio" name="color-scheme-switch" value="is-light" class="color-scheme-switch-radio"
+					   aria-label="Light color scheme"> <input type="radio" name="color-scheme-switch" value="is-system"
+															   class="color-scheme-switch-radio"
+															   aria-label="System color scheme"> <input type="radio"
+																										name="color-scheme-switch"
+																										value="is-dark"
+																										class="color-scheme-switch-radio"
+																										aria-label="Dark color scheme">
+				<label class="color-scheme-switch-label" for="color-scheme-switch"></label>
+			</div>
+		<?php endif ?>
+	</nav>
+</header>
 
-			<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
-				<div class="navbar-menu">
-					<?= $this->getBuffer('modules', 'menu', $attribs = ['style' => 'none']) ?>
-					<?php if ($this->countModules('search')) : ?>
-						<div>
-							<?= $search ?>
-						</div>
-					<?php endif ?>
-				</div>
-				<span id="navbar-menu-toggle" class="navbar-menu-toggle"><span></span></span>
-			<?php endif ?>
-			<?php if ($themeSwitcher) : ?>
-				<div class="color-scheme-switch" id="color-scheme-switch">
-					<input type="radio" name="color-scheme-switch" value="is-light" class="color-scheme-switch-radio" aria-label="Light color scheme">
-					<input type="radio" name="color-scheme-switch" value="is-system" class="color-scheme-switch-radio" aria-label="System color scheme">
-					<input type="radio" name="color-scheme-switch" value="is-dark" class="color-scheme-switch-radio" aria-label="Dark color scheme">
-					<label class="color-scheme-switch-label" for="color-scheme-switch"></label>
-				</div>
-			<?php endif ?>
-		</nav>
-	</header>
-
-	<?php if ($this->countModules('banner')) : ?>
+<?php if ($this->countModules('banner')) : ?>
 	<div class="grid-child full-width container-banner">
 		<?= $banner ?>
 	</div>
-	<?php endif ?>
+<?php endif ?>
 
-	<?php if ($this->countModules('top-a')) : ?>
+<?php if ($this->countModules('top-a')) : ?>
 	<div class="grid-child container-top-a">
 		<?= $topA ?>
 	</div>
-	<?php endif ?>
+<?php endif ?>
 
-	<?php if ($this->countModules('top-b')) : ?>
+<?php if ($this->countModules('top-b')) : ?>
 	<div class="grid-child container-top-b">
 		<?= $topB ?>
 	</div>
-	<?php endif ?>
+<?php endif ?>
 
-	<?php if ($this->countModules('sidebar-left')) : ?>
+<?php if ($this->countModules('sidebar-left')) : ?>
 	<div class="grid-child container-sidebar-left">
 		<?= $sidebarLeft ?>
 	</div>
-	<?php endif ?>
+<?php endif ?>
 
-	<div class="grid-child container-component">
-		<?= $mainTop ?>
-		<?= $message ?>
-		<?= $breadcrumbs ?>
-		<?= $component ?>
-		<?= $mainBottom ?>
-	</div>
+<div class="grid-child container-component">
+	<?= $mainTop ?>
+	<?= $message ?>
+	<?= $breadcrumbs ?>
+	<?= $component ?>
+	<?= $mainBottom ?>
+</div>
 
-	<?php if ($this->countModules('sidebar-right')) : ?>
+<?php if ($this->countModules('sidebar-right')) : ?>
 	<div class="grid-child container-sidebar-right">
 		<?= $sidebarRight ?>
 	</div>
-	<?php endif ?>
+<?php endif ?>
 
-	<?php if ($this->countModules('bottom-a')) : ?>
+<?php if ($this->countModules('bottom-a')) : ?>
 	<div class="grid-child container-bottom-a">
 		<?= $bottomA ?>
 	</div>
-	<?php endif ?>
+<?php endif ?>
 
-	<?php if ($this->countModules('bottom-b')) : ?>
+<?php if ($this->countModules('bottom-b')) : ?>
 	<div class="grid-child container-bottom-b">
 		<?= $bottomB ?>
 	</div>
-	<?php endif ?>
+<?php endif ?>
 
-	<?php if ($this->countModules('footer')) : ?>
+<?php if ($this->countModules('footer')) : ?>
 	<footer class="grid-child container-footer full-width footer">
 		<div class="container">
 			<?= $footer ?>
 		</div>
 	</footer>
-	<?php endif ?>
+<?php endif ?>
 
-	<?= $debug ?>
+<?= $debug ?>
 
-	<?php if ($deferCss): ?>
+<?php if ($deferCss): ?>
 	<script>
-		(() => {
-			const styles = <?= $cachedStyleSheets ?>;
-			styles.forEach(item => {
-				document.body.insertAdjacentHTML('beforeend', item);
-			})
-		})()
+        (() =>
+        {
+            const styles = <?= $cachedStyleSheets ?>;
+            styles.forEach(item =>
+            {
+                document.body.insertAdjacentHTML("beforeend", item);
+            })
+        })()
 	</script>
-	<?php endif ?>
+<?php endif ?>
 
-	<?php if ($deferJs): ?>
-		<?= $scripts ?>
-	<?php endif; ?>
+<?php if ($deferJs): ?>
+	<?= $scripts ?>
+<?php endif; ?>
 </body>
 </html>

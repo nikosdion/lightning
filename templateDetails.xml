@@ -67,6 +67,26 @@
                 />
 
                 <field
+                    name="logoWidth"
+                    label="TPL_LIGHTNING_LOGOWIDTH_LABEL"
+                    type="number"
+                    min="0"
+                    max="320"
+                    step="1"
+                    default="0"
+                />
+
+                <field
+                    name="logoHeight"
+                    label="TPL_LIGHTNING_LOGOHEIGHT_LABEL"
+                    type="number"
+                    min="0"
+                    max="320"
+                    step="1"
+                    default="0"
+                />
+
+                <field
                         name="siteTitle"
                         type="text"
                         default=""
