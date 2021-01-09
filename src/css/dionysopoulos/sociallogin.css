@@ -15,6 +15,7 @@
 .akeeba-sociallogin-link-button-j4, .plg_system_webauthn_login_button, div.mod-login__submit > button {
     background-image: none !important;
     border: none !important;
+    border-radius: var(--button-border-radius);
     display: block;
     margin: .25em 0;
     padding: .7em .9em .5em !important;
