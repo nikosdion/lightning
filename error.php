@@ -17,6 +17,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Template\Lightning\ImageResizer;
 
+include_once __DIR__ . '/helper/ImageResizer.php';
+
 /** @var JDocumentError $this */
 
 $app           = Factory::getApplication();

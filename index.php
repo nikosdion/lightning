@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Template\Lightning\ImageResizer;
 
+include_once __DIR__ . '/helper/ImageResizer.php';
 include_once __DIR__ . '/helper/metas.php';
 include_once __DIR__ . '/helper/styles.php';
 include_once __DIR__ . '/helper/scripts.php';
@@ -33,11 +34,16 @@ $inlineCSS     = (boolean) $this->params->get('inline-css', 1);
 $deferCss      = (boolean) $this->params->get('defer-css', 1);
 $deferJs       = (boolean) $this->params->get('defer-js', 1);
 
+// Output as HTML5
+$this->setHtml5(true);
+
+// Show the theme switcher?
 if ($themeSwitcher)
 {
 	HTMLHelper::_('stylesheet', 'switch.css', ['version' => 'auto', 'relative' => true]);
 }
 
+// Dark Mode switcher JavaScript
 HTMLHelper::_('script', 'switch.min.js', ['version' => 'auto', 'relative' => true], ['type' => 'module']);
 
 // Font Awesome
@@ -139,22 +145,22 @@ $this->addHeadLink(sprintf('%smedia/vendor/fontawesome-free/webfonts/fa-solid-90
 ]);
 
 // Get Joomla's buffer
-$menu         = $this->getBuffer('modules', 'menu', $attribs = ['style' => 'none']);
-$search       = $this->getBuffer('modules', 'search', $attribs = ['style' => 'none']);
-$banner       = $this->getBuffer('modules', 'banner', $attribs = ['style' => 'default']);
-$topA         = $this->getBuffer('modules', 'top-a', $attribs = ['style' => 'default']);
-$topB         = $this->getBuffer('modules', 'top-b', $attribs = ['style' => 'default']);
-$sidebarLeft  = $this->getBuffer('modules', 'sidebar-left', $attribs = ['style' => 'default']);
-$mainTop      = $this->getBuffer('modules', 'main-top', $attribs = ['style' => 'default']);
+$menu         = $this->getBuffer('modules', 'menu', ['style' => 'none']);
+$search       = $this->getBuffer('modules', 'search', ['style' => 'none']);
+$banner       = $this->getBuffer('modules', 'banner', ['style' => 'default']);
+$topA         = $this->getBuffer('modules', 'top-a', ['style' => 'default']);
+$topB         = $this->getBuffer('modules', 'top-b', ['style' => 'default']);
+$sidebarLeft  = $this->getBuffer('modules', 'sidebar-left', ['style' => 'default']);
+$mainTop      = $this->getBuffer('modules', 'main-top', ['style' => 'default']);
 $message      = $this->getBuffer('message');
-$breadcrumbs  = $this->getBuffer('modules', 'breadcrumbs', $attribs = ['style' => 'none']);
+$breadcrumbs  = $this->getBuffer('modules', 'breadcrumbs', ['style' => 'none']);
 $component    = $this->getBuffer('component');
-$mainBottom   = $this->getBuffer('modules', 'main-bottom', $attribs = ['style' => 'default']);
-$sidebarRight = $this->getBuffer('modules', 'sidebar-right', $attribs = ['style' => 'default']);
-$bottomA      = $this->getBuffer('modules', 'bottom-a', $attribs = ['style' => 'default']);
-$bottomB      = $this->getBuffer('modules', 'bottom-b', $attribs = ['style' => 'default']);
-$footer       = $this->getBuffer('modules', 'footer', $attribs = ['style' => 'none']);
-$debug        = $this->getBuffer('modules', 'debug', $attribs = ['style' => 'none']);
+$mainBottom   = $this->getBuffer('modules', 'main-bottom', ['style' => 'default']);
+$sidebarRight = $this->getBuffer('modules', 'sidebar-right', ['style' => 'default']);
+$bottomA      = $this->getBuffer('modules', 'bottom-a', ['style' => 'default']);
+$bottomB      = $this->getBuffer('modules', 'bottom-b', ['style' => 'default']);
+$footer       = $this->getBuffer('modules', 'footer', ['style' => 'none']);
+$debug        = $this->getBuffer('modules', 'debug', ['style' => 'none']);
 $metas        = $this->getBuffer('metas');
 $styles       = $this->getBuffer('styles');
 $scripts      = $this->getBuffer('scripts');
@@ -172,7 +178,7 @@ if ($deferCss)
 
 ?>
 <!DOCTYPE html>
-<html lang="<?= $this->language ?>" dir="<?= $this->direction ?>">
+<html lang="<?= $this->language ?>" dir="<?= $this->direction ?>" prefix="og: http://ogp.me/ns#">
 <head>
 	<?= $metas ?>
 	<?php if ($inlineCSS): ?>
@@ -278,6 +284,11 @@ if ($deferCss)
 	<footer class="grid-child container-footer full-width footer">
 		<div class="container">
 			<?= $footer ?>
+		</div>
+		<div class="container copyright">
+			<p>
+				Copyright &copy;2007-<?= date('Y') ?> Nikolaos Dionysopoulos. All legal rights reserved.
+			</p>
 		</div>
 	</footer>
 <?php endif ?>
