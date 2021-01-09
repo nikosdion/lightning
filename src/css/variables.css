@@ -361,6 +361,7 @@
 :root.is-dark {
   --hiq-dark-1: var(--hiq-color-gray-1);
   --hiq-dark-2: var(--hiq-color-gray-2);
+  --hiq-color-primary: hsl(1, 65%, 54%);
 
   /* applied colors */
   --hiq-html-background-color: var(--hiq-color-gray-1);
@@ -392,7 +393,6 @@
   --hiq-horizontal-rule-color: var(--hiq-color-gray-4);
 
   /* links */
-  --hiq-link-color: var(--hiq-color-primary);
   --hiq-link-hover-color: hsl(1, 65%, 61%);
   --hiq-link-active-color: hsl(1, 65%, 55%);
   --hiq-link-text-decoration: none;

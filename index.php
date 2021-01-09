@@ -47,7 +47,7 @@ if ($themeSwitcher)
 HTMLHelper::_('script', 'switch.min.js', ['version' => 'auto', 'relative' => true], ['type' => 'module']);
 
 // Font Awesome
-HTMLHelper::_('stylesheet', 'media/vendor/fontawesome-free/css/fontawesome.min.css', ['version' => 'auto']);
+HTMLHelper::_('stylesheet', 'templates/cassiopeia/css/vendor/fontawesome-free/fontawesome.min.css', ['version' => 'auto']);
 
 /**
  * Inline the template CSS?

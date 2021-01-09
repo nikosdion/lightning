@@ -25,33 +25,53 @@ $app           = Factory::getApplication();
 $sitename      = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu          = $app->getMenu()->getActive();
 $pageclass     = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
+
+// Get the template options
 $themeSwitcher = (boolean)$this->params->get('theme-switcher', 1);
+$inlineCSS     = (boolean) $this->params->get('inline-css', 1);
+$deferCss      = (boolean) $this->params->get('defer-css', 1);
+$deferJs       = (boolean) $this->params->get('defer-js', 1);
+
+// Output as HTML5
+$this->setHtml5(true);
 
 /** @var Throwable $incomingException */
 $incomingException = $this->_error ?? new RuntimeException('Unspecified error');
 
-// Template params
+// Show the theme switcher?
 if ($themeSwitcher)
 {
 	HTMLHelper::_('stylesheet', 'switch.css', ['version' => 'auto', 'relative' => true]);
 }
+
+// Dark Mode switcher JavaScript
 HTMLHelper::_('script', 'switch.min.js', ['version' => 'auto', 'relative' => true], ['type' => 'module']);
 
+// Font Awesome
+HTMLHelper::_('stylesheet', 'templates/cassiopeia/css/vendor/fontawesome-free/fontawesome.min.css', ['version' => 'auto']);
+
 /**
- * Uncomment to inline the template CSS.
+ * Inline the template CSS?
  *
  * Strangely, doing so seems to _increase_ the LCP (Largest Contentful Paint) on fast connections and has a negligible
  * impact on slower connections. Furthermore, it increases the nodes size count which has a negative impact on the
  * layout engine. Finally, it increases the page weight on repeated access.
  */
-//$css = file_get_contents(__DIR__ . '/css/template.css');
-
-// Fallback to good, old-fashioned loading of the CSS.
-if (!isset($css))
+if ($inlineCSS)
+{
+	$css = file_get_contents(__DIR__ . '/css/template.css');
+}
+else
 {
 	HTMLHelper::_('stylesheet', sprintf('templates/%s/css/template.css', basename(__DIR__)), ['version' => 'auto']);
+
+	// Tell the browser to start preloading the template CSS before it's done parsing the DOM
+	$this->addHeadLink(sprintf('%stemplates/%s/css/template.css', Uri::root(true), basename(__DIR__)), 'preload', 'rel', ['as'          => 'style',
+	                                                                                                                      'crossorigin' => 'anonymous',
+	]);
 }
 
+// Logo file or site title param
 $logoFile = $this->params->get('logoFile');
 
 if ($logoFile)
@@ -92,10 +112,15 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<jdoc:include type="metas" />
-	<?php if (isset($css)): ?>
-		<style><?php echo $css; ?></style>
+	<?php if ($inlineCSS): ?>
+		<style><?= $css ?></style>
+	<?php endif ?>
+	<?php if(!$deferCss): ?>
+		<jdoc:include type="styles" />
 	<?php endif; ?>
-	<jdoc:include type="styles" />
+	<?php if(!$deferJs): ?>
+		<jdoc:include type="scripts" />
+	<?php endif; ?>
 </head>
 
 <body class="site-grid site <?php echo $pageclass; ?>">
@@ -109,6 +134,15 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 					<div><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
 				<?php endif; ?>
 			</div>
+
+			<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
+				<div class="navbar-menu">
+					<jdoc:include type="modules" name="menu" style="none" />
+				</div>
+				<span id="navbar-menu-toggle" class="navbar-menu-toggle"><span></span></span>
+			<?php endif ?>
+
+
 			<?php if ($themeSwitcher) : ?>
 				<div class="color-scheme-switch" id="color-scheme-switch">
 					<input type="radio" name="color-scheme-switch" value="is-light" class="color-scheme-switch-radio" aria-label="Light color scheme">
@@ -134,6 +168,9 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			</ul>
 			<p><?php echo Text::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?></p>
 			<p><a href="<?php echo $this->baseurl; ?>/index.php"><?php echo Text::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>
+			<?php if ($this->countModules('search')) : ?>
+				<jdoc:include type="modules" name="search" />
+			<?php endif ?>
 			<hr>
 			<p><?php echo Text::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
 			<blockquote>
@@ -167,12 +204,21 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 		<div class="container">
 			<jdoc:include type="modules" name="footer" style="none" />
 		</div>
+		<div class="container copyright">
+			<p>
+				Copyright &copy;2007-<?= date('Y') ?> Nikolaos Dionysopoulos. All legal rights reserved.
+			</p>
+		</div>
 	</footer>
 	<?php endif; ?>
 
 	<jdoc:include type="modules" name="debug" style="none" />
 
+	<?php if($deferCss): ?>
 	<jdoc:include type="styles" />
+	<?php endif; ?>
+	<?php if($deferJs): ?>
 	<jdoc:include type="scripts" />
+	<?php endif; ?>
 </body>
 </html>
