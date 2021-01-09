@@ -27,3 +27,6 @@
 
 /* components */
 @import 'components/*.css';
+
+/* customisation for dionysopoulos.me */
+@import 'dionysopoulos/*.css';

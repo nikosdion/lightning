@@ -1,0 +1,34 @@
+/*
+ * @package     Lightning
+ *
+ * @copyright   Copyright (C) 2020-2021 Nicholas K. Dionysopoulos. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * This template is a derivative work of the Lightning template which is
+ * Copyright (C) 2020 JoomJunk.
+ */
+
+form.darkhorse-login-form {
+    .input-prepend {
+        width: 100%;
+    }
+
+    input[type="text"], input[type="password"] {
+        max-width: 24em;
+        width: 80%;
+    }
+
+    .darkhorse-login-buttons {
+        width: 90%;
+    }
+
+    button[type="submit"] {
+        &:hover {
+            background-color: var(--hiq-color-primary);
+        }
+
+        span {
+            margin: 0 .7em 0 .3em;
+        }
+    }
+}
