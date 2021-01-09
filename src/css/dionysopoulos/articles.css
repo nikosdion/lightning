@@ -26,9 +26,46 @@ div[itemprop="articleBody"] {
     }
 }
 
+div.com-content-category-blog div.item-content {
+    text-align: justify;
+    text-justify: inter-word;
+
+    h2 {
+        text-align: left;
+    }
+}
+
 /* Hide the "Article info" header */
-dl.article-info dt {
-    display: none;
+dl.article-info {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: baseline;
+    align-content: flex-start;
+    color: var(--hiq-color-gray-4);
+
+    dt {
+        display: none;
+    }
+
+    dd {
+        display: block;
+        margin-right: .75em;
+    }
+
+    a {
+        color: var(--hiq-link-color-alt);
+    }
+}
+
+html.is-dark {
+    dl.article-info {
+        color: var(--hiq-color-gray-6);
+
+        a {
+            color: var(--hiq-link-color-alt);
+        }
+    }
 }
 
 /* Rounded author image */
@@ -36,6 +73,10 @@ dl.article-info dt {
     display: inline;
     border-radius: 16px;
     margin-bottom: .5em;
+}
+
+aside.akenage-comments-counter--blog {
+    margin: .75em 0;
 }
 
 /* Divider between blog category articles */
@@ -50,4 +91,9 @@ div.com-content-category-blog__navigation {
     margin-top: 1.5rem;
     padding-top: 1rem;
     border-top: 2px solid var(--hiq-color-gray-7);
+}
+
+/* Hover effect for article images in the blog view */
+div.com-content-category-blog figure:hover {
+    filter: grayscale(90%) sepia(20%) hue-rotate(310deg);
 }

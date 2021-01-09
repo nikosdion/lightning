@@ -132,6 +132,7 @@
 
   /* links */
   --hiq-link-color: var(--hiq-color-primary);
+  --hiq-link-color-alt: var(--hiq-color-primary);
   --hiq-link-hover-color: hsl(210, 100%, 40%);
   --hiq-link-active-color: hsl(210, 100%, 40%);
   --hiq-link-visited-color: var(--hiq-link-color);
@@ -335,9 +336,9 @@
 
   /* dropdown */
   --hiq-dropdown-border-color: var(--hiq-border-color);
-  --hiq-dropdown-background-color: --hiq-color-gray-8;
+  --hiq-dropdown-background-color: var(--hiq-color-gray-8);
   --hiq-dropdown-header-color: hsl(210, 9%, 55%);
-  --hiq-dropdown-item-hover-background-color: var(--hiq-color-gray-8);
+  --hiq-dropdown-item-hover-background-color: var(--hiq-color-gray-6);
 
   /* tabs */
   --hiq-tabs-background-color: --hiq-color-gray-8;
@@ -362,6 +363,7 @@
   --hiq-dark-1: var(--hiq-color-gray-1);
   --hiq-dark-2: var(--hiq-color-gray-2);
   --hiq-color-primary: hsl(1, 65%, 54%);
+  --hiq-link-color-alt: hsl(1, 65%, 58%);
 
   /* applied colors */
   --hiq-html-background-color: var(--hiq-color-gray-1);
@@ -424,6 +426,10 @@
 
   /* breadcrumbs */
   --hiq-breadcrumbs-background-color: var(--hiq-color-gray-4);
+
+  /* dropdown */
+  --hiq-dropdown-background-color: var(--hiq-color-gray-3);
+  --hiq-dropdown-item-hover-background-color: var(--hiq-color-gray-4);
 
   /* Custom variables */
   --hiq-grid-gutter: 1rem;

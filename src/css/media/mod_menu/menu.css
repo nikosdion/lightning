@@ -97,6 +97,10 @@
   }
 }
 
+.navbar-menu.always-on-menu {
+  display: flex;
+}
+
 .navbar-menu-toggle {
   display: flex;
   align-items: center;
