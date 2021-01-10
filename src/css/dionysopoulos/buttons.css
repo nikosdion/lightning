@@ -1,0 +1,31 @@
+/*
+ * @package     Lightning
+ *
+ * @copyright   Copyright (C) 2020-2021 Nicholas K. Dionysopoulos. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * This template is a derivative work of the Lightning template which is
+ * Copyright (C) 2020 JoomJunk.
+ */
+
+.btn-primary {
+    --button-background-color: var(--hiq-color-primary);
+    --button-border-color: var(--hiq-color-primary);
+}
+
+.btn-success {
+    --button-background-color: var(--hiq-color-success);
+    --button-border-color: var(--hiq-color-success);
+    --button-text-color: var(--hiq-color-gray-1);
+}
+
+.btn-warning {
+    --button-background-color: var(--hiq-color-warning);
+    --button-border-color: var(--hiq-color-warning);
+    --button-text-color: var(--hiq-color-gray-1);
+}
+
+.btn-danger {
+    --button-background-color: var(--hiq-color-danger);
+    --button-border-color: var(--hiq-color-danger);
+}

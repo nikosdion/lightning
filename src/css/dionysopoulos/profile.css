@@ -61,16 +61,13 @@ div.com-users-profile-basic-container {
         h2 {
             font-size: var(--hiq-font-size-4);
         }
+    }
+}
 
-        div.akeeba-sociallogin-linkunlink-buttons {
-            display: flex;
-            flex-flow: row wrap;
-            align-content: baseline;
-            align-items: flex-start;
-
-            > a.btn {
-                margin: .25em;
-            }
-        }
+div.com-users-profile__edit {
+    div[class^="com-users-profile-fieldset"] ~ div[class^="com-users-profile-fieldset"] {
+        border-top: 2px solid var(--hiq-color-primary);
+        margin-top: 2em;
+        padding-top: 2em;
     }
 }

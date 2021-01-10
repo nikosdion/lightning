@@ -30,6 +30,7 @@
   --hiq-color-success: #4bd24b;
   --hiq-color-warning: #edc25e;
   --hiq-color-danger: #e23936;
+  --hiq-color-info: rgb(108, 157, 252);
 
   /* applied colors */
   --hiq-html-background-color: var(--hiq-color-gray-3);
