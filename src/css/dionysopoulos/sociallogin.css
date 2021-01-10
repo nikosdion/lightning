@@ -24,7 +24,7 @@ div.akeeba-sociallogin-linkunlink-buttons {
     display: inline;
 }
 
-.akeeba-sociallogin-link-button-j4, .plg_system_webauthn_login_button, div.mod-login__submit > button {
+.akeeba-sociallogin-link-button-j4, .plg_system_webauthn_login_button, div.mod-login__submit > button, .akeeba-sociallogin-unlink-button {
     background-image: none !important;
     border: none !important;
     border-radius: var(--button-border-radius);
