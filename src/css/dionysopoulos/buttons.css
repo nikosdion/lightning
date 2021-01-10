@@ -9,8 +9,27 @@
  */
 
 .btn-primary {
-    --button-background-color: var(--hiq-color-primary);
-    --button-border-color: var(--hiq-color-primary);
+    --button-background-color: var(--hiq-color-info);
+    --button-border-color: var(--hiq-color-info);
+    --button-text-color: white;
+}
+
+.btn-secondary {
+    --button-background-color: var(--hiq-color-gray-5);
+    --button-border-color: var(--hiq-color-gray-5);
+    --button-text-color: white;
+}
+
+.btn-light {
+    --button-background-color: var(--hiq-color-gray-7);
+    --button-border-color: var(--hiq-color-gray-7);
+    --button-text-color: var(--hiq-color-gray-1);
+}
+
+.btn-dark {
+    --button-background-color: var(--hiq-color-gray-1);
+    --button-border-color: var(--hiq-color-gray-1);
+    --button-text-color: var(--hiq-color-gray-7);
 }
 
 .btn-success {
@@ -28,4 +47,21 @@
 .btn-danger {
     --button-background-color: var(--hiq-color-danger);
     --button-border-color: var(--hiq-color-danger);
+    --button-text-color: white;
+}
+
+.btn-link {
+    --button-background-color: transparent;
+    --button-border-color: transparent;
+    --button-text-color: var(--hiq-link-color);
+    --button-active-background-color: transparent;
+    --button-active-border-color: transparent;
+    --button-active-background-color: transparent;
+
+    &:focus,
+    &:hover,
+    &:active {
+        text-decoration: underline;
+        outline: none;
+    }
 }

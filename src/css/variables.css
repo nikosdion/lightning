@@ -134,8 +134,8 @@
   /* links */
   --hiq-link-color: var(--hiq-color-primary);
   --hiq-link-color-alt: var(--hiq-color-primary);
-  --hiq-link-hover-color: hsl(210, 100%, 40%);
-  --hiq-link-active-color: hsl(210, 100%, 40%);
+  --hiq-link-hover-color: var(--hiq-color-info);
+  --hiq-link-active-color: var(--hiq-color-info);
   --hiq-link-visited-color: var(--hiq-link-color);
   --hiq-link-visited-hover-color: var(--hiq-link-hover-color);
   --hiq-link-visited-active-color: var(--hiq-link-active-color);
@@ -155,8 +155,8 @@
   --hiq-button-text-color: white;
 
   /* hover colors */
-  --hiq-button-hover-border-color: hsl(210, 100%, 40%);
-  --hiq-button-hover-background-color: hsl(210, 100%, 40%);
+  --hiq-button-hover-border-color: var(--hiq-color-info);
+  --hiq-button-hover-background-color: var(--hiq-color-info);
   --hiq-button-hover-text-color: white;
 
   /* active colors */

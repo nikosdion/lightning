@@ -26,15 +26,43 @@
     color: #fff;
   }
 
+  &.badge-primary, &.label-primary {
+    background-color: var(--hiq-color-primary);
+  }
+
+  &.badge-secondary, &.label-secondary {
+    background-color: var(--hiq-color-gray-5);
+  }
+
   &.badge-success, &.label-success {
     background-color: var(--hiq-color-success);
   }
 
   &.badge-warning, &.label-warning {
     background-color: var(--hiq-color-warning);
+    color: var(--hiq-color-gray-1)
   }
 
   &.badge-danger, &.label-danger {
     background-color: var(--hiq-color-danger);
   }
+
+  &.badge-info, &.label-info {
+    background-color: var(--hiq-color-info);
+  }
+
+  &.badge-light, &.label-light {
+    background-color: var(--hiq-color-gray-7);
+    color: var(--hiq-color-gray-1);
+  }
+
+  &.badge-dark, &.label-dark {
+    background-color: var(--hiq-color-gray-1);
+    color: var(--hiq-color-gray-7);
+  }
+
+  &.badge-pill {
+    border-radius: 50%;
+  }
+
 }
