@@ -8,27 +8,21 @@
  * Copyright (C) 2020 JoomJunk.
  */
 
-form.darkhorse-login-form {
-    .input-prepend {
-        width: 100%;
+div.com-users-login-buttons {
+    display: flex;
+    flex-flow: row wrap;
+
+    & > button {
+        margin-right: .75em;
     }
+}
 
-    input[type="text"], input[type="password"] {
-        max-width: 24em;
-        width: 80%;
-    }
+div.com-users-login__options {
+    margin-top: 1em;
+    border-top: 2px solid var(--hiq-color-primary);
 
-    .darkhorse-login-buttons {
-        width: 90%;
-    }
-
-    button[type="submit"] {
-        &:hover {
-            background-color: var(--hiq-color-primary);
-        }
-
-        span {
-            margin: 0 .7em 0 .3em;
-        }
+    & > a {
+        display: block;
+        margin: .5em 0;
     }
 }

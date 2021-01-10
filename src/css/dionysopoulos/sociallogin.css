@@ -66,6 +66,12 @@ div.akeeba-sociallogin-linkunlink-buttons {
 .akeeba-sociallogin-link-button-email, div.mod-login__submit > button[name="submit"] {
     background-color: var(--hiq-color-primary);
     color: white;
+
+    &>span {
+        display: inline-block !important;
+        margin-left: .5em;
+        margin-right: 1em;
+    }
 }
 
 .plg_system_webauthn_login_button {
