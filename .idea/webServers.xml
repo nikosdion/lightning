@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="7938407a-3c8a-4ace-812f-10ccbd70fde9" name="Dionysopoulos.me" url="https://www.dionysopoulos.me">
+        <fileTransfer rootFolder="/home/xsjwksuw/public_html" accessType="SFTP" host="uk601.directrouter.com" port="22" sshConfigId="d5c12c72-2783-4a89-9327-f69f818d3587" sshConfig="Dionysopoulos.me" authAgent="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
