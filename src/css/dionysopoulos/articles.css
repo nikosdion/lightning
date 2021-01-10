@@ -102,6 +102,11 @@ div.com-content-category-blog__navigation {
 }
 
 /* Hover effect for article images in the blog view */
-div.com-content-category-blog figure:hover {
-    filter: grayscale(90%) sepia(20%) hue-rotate(310deg);
+div.com-content-category-blog figure {
+    transition: filter 0.3s ease-in;
+    filter: grayscale(70%);
+
+    &:hover {
+        filter: none;
+    }
 }
