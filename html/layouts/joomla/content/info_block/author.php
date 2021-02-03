@@ -35,7 +35,7 @@ if (empty($displayData['item']->created_by_alias))
 
 		return (empty($result) || !is_string($result)) ? $carry : $result;
 	};
-	$avatarResults  = $app->triggerEvent('onAkeebaEngageUserAvatarURL', [$user, 32]);
+	$avatarResults  = $app->triggerEvent('onAkeebaEngageUserAvatarURL', [$user, 96]);
 	$profileResults = $app->triggerEvent('onAkeebaEngageUserProfileURL', [$user]);
 	$avatarURL      = array_reduce($avatarResults, $filterFunction, null);
 	$profileURL     = array_reduce($profileResults, $filterFunction, null);
@@ -57,7 +57,7 @@ if (empty($authorURL) && !empty($avatarURL) && !empty($profileURL))
 ?>
 <dd class="createdby" itemprop="author" itemscope itemtype="https://schema.org/Person">
 	<?php if ($avatarURL): ?>
-		<img src="<?= $avatarURL ?>" itemprop="image" alt="" class="img-circle author-image">
+		<img src="<?= $avatarURL ?>" width="32" height="32" itemprop="image" alt="" class="img-circle author-image">
 	<?php endif; ?>
 	<?php $author = '<span itemprop="name">' . $author . '</span>'; ?>
 	<?php if (!empty($authorURL) && $displayData['params']->get('link_author') == true) : ?>
