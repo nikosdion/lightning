@@ -44,6 +44,11 @@ div.akeeba-sociallogin-linkunlink-buttons {
     font-weight: bold !important;
     max-height: inherit !important;
 
+    @if $socialLoginMonochrome == 1 {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+    }
+
     span[class^="icon-social-"], svg {
         display: inline-block;
         width: 1.5em;
@@ -75,8 +80,10 @@ div.akeeba-sociallogin-linkunlink-buttons {
 }
 
 .plg_system_webauthn_login_button {
-    background-color: var(--hiq-color-gray-6);
-    color: var(--hiq-color-gray-1) !important;
+    @if $socialLoginMonochrome == 0 {
+        background-color: var(--hiq-color-gray-6);
+        color: var(--hiq-color-gray-1) !important;
+    }
 
     &:hover {
         background-color: var(--hiq-color-gray-7);
@@ -84,8 +91,10 @@ div.akeeba-sociallogin-linkunlink-buttons {
 }
 
 .akeeba-sociallogin-link-button-apple, .akeeba-sociallogin-unlink-button-apple {
-    background-color: #000000;
-    color: #ffffff !important;
+    @if $socialLoginMonochrome == 0 {
+        background-color: #000000;
+        color: #ffffff !important;
+    }
 
     &:hover {
         background-color: #000000;
@@ -98,8 +107,10 @@ div.akeeba-sociallogin-linkunlink-buttons {
 }
 
 .akeeba-sociallogin-link-button-facebook, .akeeba-sociallogin-unlink-button-facebook {
-    background-color: #1877F2;
-    color: #ffffff !important;
+    @if $socialLoginMonochrome == 0 {
+        background-color: #1877F2;
+        color: #ffffff !important;
+    }
 
     &:hover {
         background-color: #1877F2;
@@ -111,8 +122,10 @@ div.akeeba-sociallogin-linkunlink-buttons {
 }
 
 .akeeba-sociallogin-link-button-github, .akeeba-sociallogin-unlink-button-github {
-    background-color: black;
-    color: white !important;
+    @if $socialLoginMonochrome == 0 {
+        background-color: black;
+        color: white !important;
+    }
 
     &:hover {
         background-color: black;
@@ -129,8 +142,10 @@ div.akeeba-sociallogin-linkunlink-buttons {
 }
 
 .akeeba-sociallogin-link-button-microsoft, .akeeba-sociallogin-unlink-button-microsoft {
-    background-color: rgb(47, 47, 47);
-    color: white !important;
+    @if $socialLoginMonochrome == 0 {
+        background-color: rgb(47, 47, 47);
+        color: white !important;
+    }
 
     &:hover {
         background-color: rgb(47, 47, 47);
@@ -142,8 +157,10 @@ div.akeeba-sociallogin-linkunlink-buttons {
 }
 
 .akeeba-sociallogin-link-button-twitter, .akeeba-sociallogin-unlink-button-twitter {
-    background-color: #1DA1F2;
-    color: white !important;
+    @if $socialLoginMonochrome == 0 {
+        background-color: #1DA1F2;
+        color: white !important;
+    }
 
     &:hover {
         background-color: #1DA1F2;

@@ -10,6 +10,9 @@
 
 /* variables */
 
+/* Should Social Login buttons be monochrome? */
+$socialLoginMonochrome: 1;
+
 /* should match --hiq-unitless-upper-font-range with px unit */
 @custom-media --hiq-lower-font-range (min-width: 460px);
 @custom-media --hiq-upper-font-range (min-width: 900px);
@@ -24,17 +27,20 @@
   --hiq-color-gray-6: rgb(200, 205, 208);
   --hiq-color-gray-7: rgb(220, 220, 225);
   --hiq-color-gray-8: rgb(242, 242, 243);
+  --white: rgb(255, 255, 255);
 
   /* semantic palette */
   --hiq-color-primary: #d43431;
   --hiq-color-success: #4bd24b;
   --hiq-color-warning: #edc25e;
   --hiq-color-danger: #e23936;
-  --hiq-color-info: rgb(108, 157, 252);
+  //--hiq-color-info: rgb(108, 157, 252);
+  --hiq-color-info: rgb(55, 100, 165);
 
   /* applied colors */
   --hiq-html-background-color: var(--hiq-color-gray-3);
-  --hiq-body-background-color: var(--hiq-color-gray-8);
+  //--hiq-body-background-color: var(--hiq-color-gray-8);
+  --hiq-body-background-color: var(--white);
   --hiq-disabled-border-color: var(--hiq-color-gray-7);
   --hiq-disabled-background-color: var(--hiq-color-gray-7);
   --hiq-disabled-text-color: var(--hiq-color-gray-5);
@@ -193,7 +199,8 @@
 
   --hiq-figcaption-margin-top: .5rem;
   --hiq-figcaption-font-weight: var(--hiq-font-weight-normal);
-  --hiq-figcaption-text-color: var(--hiq-color-gray-5);
+  //--hiq-figcaption-text-color: var(--hiq-color-gray-5);
+  --hiq-figcaption-text-color: var(--hiq-color-gray-3);
 
   /* images */
   --hiq-image-border-radius: var(--hiq-border-radius);

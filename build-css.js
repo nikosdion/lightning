@@ -21,6 +21,8 @@ const plugins = [
     require("autoprefixer"),
     require("postcss-custom-media"),
     require("postcss-discard-comments"),
+    require("postcss-simple-vars"),
+    require("postcss-conditionals"),
     require("cssnano")({
         preset: "default",
     })

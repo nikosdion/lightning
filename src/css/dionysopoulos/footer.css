@@ -14,7 +14,9 @@ footer > div.copyright {
     p {
         margin: 0;
         text-align: center;
-        color: var(--hiq-color-gray-5);
+        //color: var(--hiq-color-gray-5);
+        color: var(--hiq-color-gray-7);
         font-size: var(--hiq-font-size-small);
+        font-style: italic;
     }
 }

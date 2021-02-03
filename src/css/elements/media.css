@@ -35,6 +35,7 @@ figcaption {
   margin-top: var(--figcaption-margin-top);
   font-weight: var(--figcaption-font-weight);
   color: var(--figcaption-text-color);
+  font-style: italic;
 }
 
 img {

@@ -15,8 +15,10 @@
 }
 
 .btn-secondary {
-    --button-background-color: var(--hiq-color-gray-5);
-    --button-border-color: var(--hiq-color-gray-5);
+    //--button-background-color: var(--hiq-color-gray-5);
+    //--button-border-color: var(--hiq-color-gray-5);
+    --button-background-color: var(--hiq-color-gray-3);
+    --button-border-color: var(--hiq-color-gray-3);
     --button-text-color: white;
 }
 

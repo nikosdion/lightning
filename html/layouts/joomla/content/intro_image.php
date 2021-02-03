@@ -49,7 +49,7 @@ $images = json_decode($displayData->images);
 	<?php $imgfloat = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro; ?>
 	<figure class="float-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
 		<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
-			<a href="<?php echo Route::_(RouteHelper::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>">
+			<a href="<?php echo Route::_(RouteHelper::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>" title="<?= $images->image_intro_alt ?: htmlspecialchars($displayData->title, ENT_COMPAT) ?>">
 				<?= $pictureElement ?>
 			</a>
 		<?php else : ?>
