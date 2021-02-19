@@ -36,11 +36,11 @@ ImageResizer::getInstance()->setArticleImages(
 
 $canonicalURL = Route::_(ContentHelperRoute::getArticleRoute($this->item->id), true, Route::TLS_IGNORE, true);
 
-$doc->setMetaData('og:type', 'blog');
-$doc->setMetaData('og:title', $this->item->title);
-$doc->setMetaData('og:description', $doc->getDescription());
-$doc->setMetaData('og:site_name', $app->get('sitename'));
-$doc->setMetaData('og:url', $canonicalURL);
+$doc->setMetaData('og:type', 'blog', 'property');
+$doc->setMetaData('og:title', $this->item->title, 'property');
+$doc->setMetaData('og:description', $doc->getDescription(), 'property');
+$doc->setMetaData('og:site_name', $app->get('sitename'), 'property');
+$doc->setMetaData('og:url', $canonicalURL, 'property');
 $doc->setMetaData('twitter:card', 'summary_large_image');
 $doc->setMetaData('twitter:site', '@sledge812');
 $doc->setMetaData('twitter:creator', '@sledge812');

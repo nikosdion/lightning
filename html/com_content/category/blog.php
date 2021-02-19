@@ -33,11 +33,11 @@ ImageResizer::getInstance()->setArticleImages(
 	$doc, $category->params->get('image')
 );
 
-$doc->setMetaData('og:type', 'blog');
-$doc->setMetaData('og:title', $this->params->get('page_title', $category->title));
-$doc->setMetaData('og:description', $doc->getDescription());
-$doc->setMetaData('og:site_name', $app->get('sitename'));
-$doc->setMetaData('og:url', $canonicalURL);
+$doc->setMetaData('og:type', 'blog', 'property');
+$doc->setMetaData('og:title', $this->params->get('page_title', $category->title), 'property');
+$doc->setMetaData('og:description', $doc->getDescription(), 'property');
+$doc->setMetaData('og:site_name', $app->get('sitename'), 'property');
+$doc->setMetaData('og:url', $canonicalURL, 'property');
 $doc->setMetaData('twitter:card', 'summary_large_image');
 $doc->setMetaData('twitter:site', '@sledge812');
 $doc->setMetaData('twitter:creator', '@sledge812');

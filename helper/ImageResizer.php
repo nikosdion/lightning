@@ -416,7 +416,7 @@ class ImageResizer
 		$ogImage      = $allImages[self::OG_WIDTH] ?? (Uri::root(false) . $image);
 		$twitterImage = $allImages[self::TWITTER_WIDTH] ?? (Uri::root(false) . $image);
 
-		$doc->setMetaData('og:image', $ogImage);
+		$doc->setMetaData('og:image', $ogImage, 'property');
 
 		// Only set a separate twitter:image meta if the OpenGraph image (og:image) is different than the Twitter image.
 		if ($ogImage != $twitterImage)
