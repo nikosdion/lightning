@@ -396,25 +396,31 @@ class ImageResizer
 
 		$template = $app->getTemplate(true);
 
-		[$sizes, $srcSet, $imgSrc] = (clone $this)
-			->setRelativeCachePath($template->params->get('imgCacheFolder', 'autosized'))
-			->setBreakPoints([
-				sprintf("(min-width: %dw)", self::OG_WIDTH)      => self::OG_WIDTH,
-				sprintf("(min-width: %dw)", self::TWITTER_WIDTH) => self::TWITTER_WIDTH,
-			])
-			->getResizedSources($image, true);
+		$getImageSize = function ($size, $webp = false) use ($template, $image) {
 
-		$allImages = [];
+			[$sizes, $srcSet, $imgSrc] = (clone $this)
+				->setRelativeCachePath($template->params->get('imgCacheFolder', 'autosized'))
+				->setBreakPoints([
+					sprintf("(min-width: %dw)", $size) => $size,
+				])
+				->getResizedSources($image, $webp);
 
-		foreach (explode(', ', $srcSet) as $imgDef)
-		{
-			[$imgUrl, $imgSize] = explode(' ', $imgDef);
-			$imgSize             = intval($imgSize);
-			$allImages[$imgSize] = $imgUrl;
-		}
+			$allImages = [];
 
-		$ogImage      = $allImages[self::OG_WIDTH] ?? (Uri::root(false) . $image);
-		$twitterImage = $allImages[self::TWITTER_WIDTH] ?? (Uri::root(false) . $image);
+			foreach (explode(', ', $srcSet) as $imgDef)
+			{
+				[$imgUrl, $imgSize] = explode(' ', $imgDef);
+				$imgSize             = intval($imgSize);
+				$allImages[$imgSize] = $imgUrl;
+			}
+
+			return $allImages[$size] ?? (Uri::root(false) . $image);
+		};
+
+		// LinkedIn can't do WEBP so og:image needs to be a regular JPG, PNG etc
+		$ogImage      = $getImageSize(self::OG_WIDTH, false);
+		// Twitter can do WEBP just fine, so let's use WEBP instead.
+		$twitterImage = $getImageSize(self::TWITTER_WIDTH, true);
 
 		$doc->setMetaData('og:image', $ogImage, 'property');
 
