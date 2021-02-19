@@ -36,7 +36,7 @@ ImageResizer::getInstance()->setArticleImages(
 
 $canonicalURL = Route::_(ContentHelperRoute::getArticleRoute($this->item->id), true, Route::TLS_IGNORE, true);
 
-$doc->setMetaData('og:type', 'blog', 'property');
+$doc->setMetaData('og:article', 'blog', 'property');
 $doc->setMetaData('og:title', $this->item->title, 'property');
 $doc->setMetaData('og:description', $doc->getDescription(), 'property');
 $doc->setMetaData('og:site_name', $app->get('sitename'), 'property');
